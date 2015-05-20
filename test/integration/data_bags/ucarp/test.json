@@ -1,0 +1,8 @@
+{
+  "id": "test",
+  "vip_id": "001",
+  "bind_interface": "eth0",
+  "source_address": "127.0.0.1",
+  "vip_address": "192.0.2.4",
+  "password": "secret"
+}
