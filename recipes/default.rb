@@ -48,8 +48,7 @@ unless platform_family?('rhel')
         end
       end
     end
-  end
-end
+
 
 service 'networking' do
   supports restart: true
