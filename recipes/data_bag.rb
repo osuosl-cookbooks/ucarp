@@ -35,7 +35,18 @@ if platform_family?('rhel')
     notifies :restart, 'service[ucarp]'
   end
 
+  # workaround for systemd and template services
+  link "/etc/systemd/system/ucarp@vip-#{ucarp_databag['vip_id']}.service" do
+    to '/usr/lib/systemd/system/ucarp@.service'
+    only_if { node['ucarp']['init_type'] == 'systemd' }
+  end
+
   service 'ucarp' do
+    case node['ucarp']['init_type']
+    when 'systemd'
+      provider Chef::Provider::Service::Systemd
+      service_name "ucarp@vip-#{ucarp_databag['vip_id']}.service"
+    end
     supports :status => true, :restart => true
     action [:start, :enable]
   end
