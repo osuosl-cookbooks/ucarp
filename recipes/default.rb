@@ -50,14 +50,15 @@ unless platform_family?('rhel')
     end
 
 
-service 'networking' do
-  supports restart: true
-  action :nothing
-end
-
-node['ucarp']['bonded_interfaces'].each do |interface|
-  execute "flush ip on #{interface}" do
-    command "ip addr flush dev #{interface}"
+  service 'networking' do
+    supports restart: true
     action :nothing
+  end
+
+  node['ucarp']['bonded_interfaces'].each do |interface|
+    execute "flush ip on #{interface}" do
+      command "ip addr flush dev #{interface}"
+      action :nothing
+    end
   end
 end
