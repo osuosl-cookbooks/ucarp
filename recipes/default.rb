@@ -19,27 +19,27 @@
 
 include_recipe 'yum-epel' if platform_family?('rhel')
 
-package "ucarp"
+package 'ucarp'
 
 unless platform_family?('rhel')
-  template "/etc/network/interfaces" do
-    source "interfaces.erb"
-    owner "root"
-    group "root"
+  template '/etc/network/interfaces' do
+    source 'interfaces.erb'
+    owner 'root'
+    group 'root'
     mode 0644
     variables(
-      :vid =>  node['ucarp']['vid'],
-      :vip =>  node['ucarp']['vip'],
-      :netmask => node['ucarp']['netmask'],
-      :password => node['ucarp']['password'],
-      :advskew => node['ucarp']['master'] ? node['ucarp']['advskew'] : node['ucarp']['advskew'] + 99,
-      :advbase => node['ucarp']['advbase'],
-      :master => node['ucarp']['master'] ? 'yes' : 'no',
-      :interface => node['ucarp']['interface'],
-      :bonded_interfaces => node['ucarp']['bonded_interfaces'],
-      :bond_mode => node['ucarp']['bond_mode']
+      vid: node['ucarp']['vid'],
+      vip: node['ucarp']['vip'],
+      netmask: node['ucarp']['netmask'],
+      password: node['ucarp']['password'],
+      advskew: node['ucarp']['master'] ? node['ucarp']['advskew'] : node['ucarp']['advskew'] + 99,
+      advbase: node['ucarp']['advbase'],
+      master: node['ucarp']['master'] ? 'yes' : 'no',
+      interface: node['ucarp']['interface'],
+      bonded_interfaces: node['ucarp']['bonded_interfaces'],
+      bond_mode: node['ucarp']['bond_mode']
     )
-    notifies :restart, "service[networking]", :immediately
+    notifies :restart, 'service[networking]', :immediately
 
     if node['ucarp']['interface'].match(/bond/)
       node['ucarp']['bonded_interfaces'].each do |interface|
@@ -48,10 +48,10 @@ unless platform_family?('rhel')
         end
       end
     end
-  end
 
-  service "networking" do
-    supports :restart => true
+
+  service 'networking' do
+    supports restart: true
     action :nothing
   end
 
