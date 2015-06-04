@@ -22,6 +22,12 @@ include_recipe 'yum-epel' if platform_family?('rhel')
 package 'ucarp'
 
 unless platform_family?('rhel')
+  if node['ucarp']['master']
+    skew = node['ucarp']['advskew']
+  else
+    skew = node['ucarp']['advskew'] + 99
+  end
+
   template '/etc/network/interfaces' do
     source 'interfaces.erb'
     owner 'root'
@@ -32,7 +38,7 @@ unless platform_family?('rhel')
       vip: node['ucarp']['vip'],
       netmask: node['ucarp']['netmask'],
       password: node['ucarp']['password'],
-      advskew: node['ucarp']['master'] ? node['ucarp']['advskew'] : node['ucarp']['advskew'] + 99,
+      advskew: skew,
       advbase: node['ucarp']['advbase'],
       master: node['ucarp']['master'] ? 'yes' : 'no',
       interface: node['ucarp']['interface'],
@@ -48,7 +54,7 @@ unless platform_family?('rhel')
         end
       end
     end
-
+  end
 
   service 'networking' do
     supports restart: true

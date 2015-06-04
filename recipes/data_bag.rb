@@ -22,7 +22,7 @@ include_recipe 'ucarp'
 begin
   ucarp_databag = data_bag_item('ucarp', node['ucarp']['data_bag']['cluster'])
 rescue
-  fail "Could not fine data bag for #{node['ucarp']['data_bag']['cluster']}"
+  raise "Could not find data bag for #{node['ucarp']['data_bag']['cluster']}"
 end
 
 if platform_family?('rhel')
