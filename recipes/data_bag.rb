@@ -35,10 +35,13 @@ if platform_family?('rhel')
     notifies :restart, 'service[ucarp]'
   end
 
+  paths = %w(/etc/systemd/system /etc/systemd/system/multi-user.target.wants)
   # workaround for systemd and template services
-  link "/etc/systemd/system/ucarp@vip-#{ucarp_databag['vip_id']}.service" do
-    to '/usr/lib/systemd/system/ucarp@.service'
-    only_if { node['ucarp']['init_type'] == 'systemd' }
+  paths.each do |pth|
+    link "#{pth}/ucarp@vip-#{ucarp_databag['vip_id']}.service" do
+      to '/usr/lib/systemd/system/ucarp@.service'
+      only_if { node['ucarp']['init_type'] == 'systemd' }
+    end
   end
 
   service 'ucarp' do
@@ -47,7 +50,7 @@ if platform_family?('rhel')
       provider Chef::Provider::Service::Systemd
       service_name "ucarp@vip-#{ucarp_databag['vip_id']}.service"
     end
-    supports :status => true, :restart => true
+    supports status: true, restart: true
     action [:start, :enable]
   end
 end
