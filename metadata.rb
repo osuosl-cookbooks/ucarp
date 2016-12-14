@@ -10,3 +10,4 @@ depends 'yum-epel'
 
 supports 'debian'
 supports 'ubuntu'
+supports 'centos'
