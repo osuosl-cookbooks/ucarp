@@ -7,5 +7,5 @@ describe package('ucarp') do
 end
 
 describe service('ucarp') do
-  it { shoule be_enabled }
+  it { should be_enabled }
 end

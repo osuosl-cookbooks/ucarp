@@ -35,15 +35,6 @@ if platform_family?('rhel')
     notifies :restart, 'service[ucarp]'
   end
 
-  paths = %w(/etc/systemd/system /etc/systemd/system/multi-user.target.wants)
-  # workaround for systemd and template services
-  paths.each do |pth|
-    link "#{pth}/ucarp@vip-#{ucarp_databag['vip_id']}.service" do
-      to '/usr/lib/systemd/system/ucarp@.service'
-      only_if { node['ucarp']['init_type'] == 'systemd' }
-    end
-  end
-
   service 'ucarp' do
     case node['ucarp']['init_type']
     when 'systemd'

@@ -3,6 +3,10 @@ Description
 
 Manages ucarp IP failover on Linux.
 
+ucarp is a portable implemenation of the Common Address Redundacny Protocol
+which allows multiple hosts on the same local area network to share a set of IP
+addresses to provide automatic failover.
+
 Requirements
 ============
 

@@ -8,7 +8,7 @@ default['ucarp']['netmask'] = '255.255.255.0'
 default['ucarp']['interface'] = 'eth0'
 default['ucarp']['bonded_interfaces'] = %w(eth0 eth1)
 default['ucarp']['bond_mode'] = 5
-default['ucarp']['init_type']  = value_for_platform(
+default['ucarp']['init_type'] = value_for_platform(
   'centos' => {
     '~> 6.0' => 'upstart',
     '~> 7.0' => 'systemd'
@@ -16,4 +16,5 @@ default['ucarp']['init_type']  = value_for_platform(
   'debian' => {
     '~> 8.0' => 'systemd'
   },
-  'default' => 'upstart')
+  'default' => 'upstart'
+)
