@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of ucarp.
 
+1.0.3 (2017-01-06)
+------------------
+- Standardization and systemd fix
+
 ## 0.0.6:
 
 * Add supported OSs

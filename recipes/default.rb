@@ -22,17 +22,17 @@ include_recipe 'yum-epel' if platform_family?('rhel')
 package 'ucarp'
 
 unless platform_family?('rhel')
-  if node['ucarp']['master']
-    skew = node['ucarp']['advskew']
-  else
-    skew = node['ucarp']['advskew'] + 99
-  end
+  skew = if node['ucarp']['master']
+           node['ucarp']['advskew']
+         else
+           node['ucarp']['advskew'] + 99
+         end
 
   template '/etc/network/interfaces' do
     source 'interfaces.erb'
     owner 'root'
     group 'root'
-    mode 0644
+    mode '0644'
     variables(
       vid: node['ucarp']['vid'],
       vip: node['ucarp']['vip'],
@@ -47,7 +47,7 @@ unless platform_family?('rhel')
     )
     notifies :restart, 'service[networking]', :immediately
 
-    if node['ucarp']['interface'].match(/bond/)
+    if node['ucarp']['interface'] =~ /bond/
       node['ucarp']['bonded_interfaces'].each do |interface|
         if node['network']['interfaces'].include?(interface)
           notifies :run, "execute[flush ip on #{interface}]", :immediately

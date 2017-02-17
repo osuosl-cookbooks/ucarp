@@ -9,3 +9,11 @@ describe file('/etc/ucarp/vip-001.conf') do
   its(:content) { should match(/VIP\_ADDRESS=192.0.2.4/) }
   its(:content) { should match(/PASSWORD=secret/) }
 end
+
+describe package('ucarp') do
+  it { should be_installed }
+end
+
+describe service('ucarp@vip-001') do
+  it { should be_enabled }
+end
