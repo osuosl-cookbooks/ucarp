@@ -10,6 +10,9 @@ source_url       "https://github.com/osuosl-cookbooks/ucarp"
 
 depends 'yum-epel','< 3.0'
 depends 'apt'
+depends 'base'
+depends 'chef-client' 
+depends 'sysctl'
 
 supports 'debian'
 supports 'ubuntu'
