@@ -14,4 +14,12 @@ suites:
       ucarp:
         data_bag:
           cluster: test
+  - name: remove
+    run_list:
+      - recipe[ucarp::data_bag]
+      - recipe[ucarp::remove]
+    attributes:
+      ucarp:
+        data_bag:
+          cluster: test
 

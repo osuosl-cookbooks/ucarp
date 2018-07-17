@@ -5,25 +5,17 @@ ChefSpec::Coverage.start! { add_filter 'ucarp' }
 
 CENTOS_7 = {
   platform: 'centos',
-  version: '7.3',
-  platform_family: 'rhel'
+  version: '7.2.1511'
 }.freeze
 
 CENTOS_6 = {
   platform: 'centos',
-  version: '6.8',
-  platform_family: 'rhel'
-}.freeze
-
-DEBIAN_8 = {
-  platform: 'debian',
-  version: '8.4'
+  version: '6.8'
 }.freeze
 
 ALL_PLATFORMS = [
   CENTOS_6,
-  CENTOS_7,
-  DEBIAN_8
+  CENTOS_7
 ].freeze
 
 RSpec.configure do |config|
@@ -32,11 +24,6 @@ end
 
 shared_context 'common_stubs' do
   before do
-    stub_command 'ip addr flush dev eth0'
-    stub_command 'ip addr flush dev eth1'
-    stub_command 'flush ip on eth0'
-    stub_command 'flush ip on eth1'
-
     stub_data_bag_item('ucarp', 'lb1').and_return(
       id: 'vip-lb1',
       vip_id: '001',

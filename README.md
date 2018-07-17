@@ -10,7 +10,10 @@ addresses to provide automatic failover.
 Requirements
 ============
 
-Currently supports Debian and Ubuntu style networking.
+Platforms
+-----------
+- CentOS 6
+- CentOS 7
 
 Attributes
 ==========
