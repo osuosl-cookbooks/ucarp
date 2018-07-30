@@ -9,8 +9,5 @@ issues_url       "https://github.com/osuosl-cookbooks/ucarp/issues"
 source_url       "https://github.com/osuosl-cookbooks/ucarp"
 
 depends 'yum-epel','< 3.0'
-depends 'apt'
 
-supports 'debian'
-supports 'ubuntu'
 supports 'centos'

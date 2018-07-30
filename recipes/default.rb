@@ -21,50 +21,12 @@ include_recipe 'yum-epel' if platform_family?('rhel')
 
 package 'ucarp'
 
-unless platform_family?('rhel')
-  skew = if node['ucarp']['master']
-           node['ucarp']['advskew']
-         else
-           node['ucarp']['advskew'] + 99
-         end
-
-  template '/etc/network/interfaces' do
-    source 'interfaces.erb'
-    owner 'root'
-    group 'root'
-    mode '0644'
-    variables(
-      vid: node['ucarp']['vid'],
-      vip: node['ucarp']['vip'],
-      netmask: node['ucarp']['netmask'],
-      password: node['ucarp']['password'],
-      advskew: skew,
-      advbase: node['ucarp']['advbase'],
-      master: node['ucarp']['master'] ? 'yes' : 'no',
-      interface: node['ucarp']['interface'],
-      bonded_interfaces: node['ucarp']['bonded_interfaces'],
-      bond_mode: node['ucarp']['bond_mode']
-    )
-    notifies :restart, 'service[networking]', :immediately
-
-    if node['ucarp']['interface'] =~ /bond/
-      node['ucarp']['bonded_interfaces'].each do |interface|
-        if node['network']['interfaces'].include?(interface)
-          notifies :run, "execute[flush ip on #{interface}]", :immediately
-        end
-      end
-    end
-  end
-
-  service 'networking' do
-    supports restart: true
-    action :nothing
-  end
-
-  node['ucarp']['bonded_interfaces'].each do |interface|
-    execute "flush ip on #{interface}" do
-      command "ip addr flush dev #{interface}"
-      action :nothing
-    end
-  end
+# Overwrite packaged file to address bug:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1568599
+cookbook_file '/usr/libexec/ucarp/ucarp' do
+  source 'ucarp'
+  owner 'root'
+  group 'root'
+  mode '0700'
+  only_if { platform_family?('rhel') && node['platform_version'].to_i == 7 } # CentOS 7
 end
