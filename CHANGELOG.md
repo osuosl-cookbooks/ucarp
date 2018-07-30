@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of ucarp.
 
+2.0.0 (2018-07-30)
+------------------
+- Add ucarp::remove
+
 1.0.3 (2017-01-06)
 ------------------
 - Standardization and systemd fix

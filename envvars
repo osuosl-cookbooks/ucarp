@@ -1,0 +1,4 @@
+cookbook=ucarp
+version=1.0.3
+envs=*
+pr_link=https://github.com/osuosl-cookbooks/ucarp/pull/9
